@@ -5,19 +5,30 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --passWithNoTests --no-cache -runInBand",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage",
+    "test:domain": "npm run test ./src/domain",
+    "test:infra": "npm run test ./src/infra",
+    "test:presentation": "npm run test ./src/presentation",
+    "test:vos": "npm run test ./src/domain/valueObjects",
+    "test:repositories": "npm run test ./src/infra/repositories",
+    "test:controllers": "npm run test ./src/presentation/controllers"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.3",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^20.4.2",
+    "jest": "^29.6.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
     "module-alias": "^2.2.3",
-    "rimraf": "^5.0.1"
+    "rimraf": "^5.0.1",
+    "ts-jest": "^29.1.1"
   }
 }

@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  database:
+    image: postgres:15.3
+    container_name: db
+    environment:
+      POSTGRES_USER: user_user
+      POSTGRES_PASSWORD: Userpass@@1
+      POSTGRES_DB: v1_rider
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d v1_rider -U user_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5432:5432
+    volumes:
+      - ./api/db/data:/var/lib/postgresql/data
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./data/pg_hba.conf:/etc/postgresql/pg_hba.conf
+    restart: always
+
+  api:
+    build: .
+    command: npm run dev
+    container_name: api
+    restart: always
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 9001:9001
+    depends_on:
+      - database

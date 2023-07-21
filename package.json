@@ -14,7 +14,10 @@
     "test:presentation": "npm run test ./src/presentation",
     "test:vos": "npm run test ./src/domain/valueObjects",
     "test:repositories": "npm run test ./src/infra/repositories",
-    "test:controllers": "npm run test ./src/presentation/controllers"
+    "test:controllers": "npm run test ./src/presentation/controllers",
+    "compose:up": "docker-compose -f docker-compose.yml up -d",
+    "compose:db": "docker compose  -f docker-compose.yml up -d --build database",
+    "compose:api": "docker compose  -f docker-compose.yml up -d --build api"
   },
   "keywords": [],
   "author": "",

@@ -13,6 +13,6 @@ CREATE TABLE `v1_rider``.migrations` (
 
 LOCK TABLES `v1_rider`.`migrations` WRITE;
 
-INSERT INTO `v1_rider``migrations` VALUES (1,'2019_08_08_111945_create_agendas_table',1);
+INSERT INTO `v1_rider``migrations` VALUES (1,'20230722213308_rider',1);
 
 UNLOCK TABLES;

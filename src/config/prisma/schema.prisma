@@ -5,7 +5,48 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator migration {
+  provider = "prisma-migrate-shim"
+  output   = "./migrations/0_init"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(60)
+  createdAt DateTime @default(now())
+  subscription Subscription[]
+
+  @@map("users")
+}
+
+model Pedais {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(60)
+  start_date DateTime
+  start_date_registration DateTime
+  end_date_registration DateTime
+  additional_information String? @db.Text
+  start_place String @db.VarChar(60)
+  participants_limit Int?
+  subscriptions Subscription[]
+
+  @@map("pedais")
+}
+
+model Subscription {
+  id Int @id @default(autoincrement())
+  ride_id	Int
+  user_id	Int
+  subscription_date	DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+  pedais Pedais @relation(fields: [ride_id], references: [id])
+
+  @@map("subscription")
+  @@index([user_id, ride_id], name: "idx_userId_rideId")
 }

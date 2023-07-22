@@ -18,6 +18,7 @@
     "compose:up": "docker-compose -f docker-compose.yml up -d",
     "compose:db": "docker compose  -f docker-compose.yml up -d --build database",
     "compose:api": "docker compose  -f docker-compose.yml up -d --build api",
+    "prisma:resolve": "prisma migrate resolve --applied 20230722213308_rider",
     "prisma:apply": "prisma migrate deploy && prisma generate"
   },
   "keywords": [],
@@ -46,5 +47,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.1",
     "type-graphql": "^1.1.1"
+  },
+  "prisma": {
+    "schema": "src/config/prisma/schema.prisma"
   }
 }

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "dev": "tsnd --transpile-only  --ignore-watch src/Server.ts",
+    "dev": "ts-node-dev --transpile-only ./src/server.ts",
     "test": "jest --passWithNoTests --no-cache -runInBand",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
@@ -18,7 +18,8 @@
     "compose:up": "docker-compose -f docker-compose.yml up -d",
     "compose:db": "docker compose  -f docker-compose.yml up -d --build database",
     "compose:api": "docker compose  -f docker-compose.yml up -d --build api",
-    "prisma:resolve": "prisma migrate resolve --applied 20230723003223_rider",
+    "prisma:migration": "npx prisma migrate dev --name",
+    "prisma:resolve": "prisma migrate resolve --applied 20230723233521_init",
     "prisma:apply": "prisma migrate deploy && prisma generate"
   },
   "keywords": [],
@@ -30,6 +31,7 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^20.4.2",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",

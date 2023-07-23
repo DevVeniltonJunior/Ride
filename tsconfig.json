@@ -15,7 +15,9 @@
     "lib": ["es2018", "esnext.asynciterable"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*", "test/**/*"],
 }

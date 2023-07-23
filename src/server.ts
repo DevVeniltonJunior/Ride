@@ -2,17 +2,19 @@ import { ApolloServer } from "apollo-server"
 import { buildSchema } from "type-graphql"
 import "reflect-metadata"
 import path from "node:path"
+import { context } from "./context"
+import { UserResolver } from "./UserResolver"
 
-export async function startServer() {
+async function startServer() {
   const schema = await buildSchema({
-    resolvers: [
-      //toDo: Remove this code bellow and create resolvers for each module
-      path.resolve(__dirname, "..", "modules", "user", "resolvers", "*.ts"),
-    ],
+    resolvers: [UserResolver],
+    validate: { forbidUnknownValues: false },
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   })
-  const server = new ApolloServer({})
+  const server = new ApolloServer({ schema, context })
 
   const { url } = await server.listen(4000)
   console.log(`Server is running, GraphQL Playground available at ${url}`)
 }
+
+startServer()

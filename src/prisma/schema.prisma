@@ -6,8 +6,7 @@ generator client {
 }
 
 generator migration {
-  provider = "typegraphql-prisma"
-  output   = "./generated/type-graphql"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -18,11 +17,12 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
   name String @db.VarChar(60)
-  email String @db.VarChar(60)
+  email String @db.VarChar(60) @unique
   password String @db.VarChar(512)
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
   subscription Subscription[]
+  token Tokens[]
 
   @@map("users")
 }
@@ -38,7 +38,7 @@ model Pedais {
   participants_limit Int?
   subscriptions Subscription[]
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 
   @@map("pedais")
 }
@@ -49,11 +49,22 @@ model Subscription {
   user_id	Int
   subscription_date	DateTime @default(now())
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [user_id], references: [id])
   pedais Pedais @relation(fields: [ride_id], references: [id])
 
   @@map("subscription")
   @@index([user_id, ride_id], name: "idx_userId_rideId")
+}
+
+model Tokens {
+  id  Int @id @default(autoincrement())
+  user_id Int
+  token String @unique
+  createdAt DateTime @default(now())
+
+  user  User @relation(fields: [user_id], references: [id])
+  @@index([user_id], name: "idx_userId")
+  @@map("tokens")
 }

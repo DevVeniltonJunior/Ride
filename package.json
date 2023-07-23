@@ -18,14 +18,16 @@
     "compose:up": "docker-compose -f docker-compose.yml up -d",
     "compose:db": "docker compose  -f docker-compose.yml up -d --build database",
     "compose:api": "docker compose  -f docker-compose.yml up -d --build api",
-    "prisma:resolve": "prisma migrate resolve --applied 20230722213308_rider",
+    "prisma:resolve": "prisma migrate resolve --applied 20230723003223_rider",
     "prisma:apply": "prisma migrate deploy && prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.3",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^20.4.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
@@ -36,19 +38,26 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "typegraphql-prisma": "^0.27.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
+    "@types/graphql-fields": "^1.3.5",
     "apollo-server": "^3.12.0",
+    "bcrypt": "^5.1.0",
     "class-validator": "^0.14.0",
     "graphql": "^15.8.0",
+    "graphql-fields": "^2.0.3",
+    "graphql-scalars": "^1.22.2",
+    "jsonwebtoken": "^9.0.1",
     "module-alias": "^2.2.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^5.0.1",
+    "tslib": "^2.6.0",
     "type-graphql": "^1.1.1"
   },
   "prisma": {
-    "schema": "src/config/prisma/schema.prisma"
+    "schema": "src/prisma/schema.prisma"
   }
 }

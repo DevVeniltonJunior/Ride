@@ -1,0 +1,14 @@
+export { AggregatePedaisArgs } from "./AggregatePedaisArgs";
+export { CreateManyPedaisArgs } from "./CreateManyPedaisArgs";
+export { CreateOnePedaisArgs } from "./CreateOnePedaisArgs";
+export { DeleteManyPedaisArgs } from "./DeleteManyPedaisArgs";
+export { DeleteOnePedaisArgs } from "./DeleteOnePedaisArgs";
+export { FindFirstPedaisArgs } from "./FindFirstPedaisArgs";
+export { FindFirstPedaisOrThrowArgs } from "./FindFirstPedaisOrThrowArgs";
+export { FindManyPedaisArgs } from "./FindManyPedaisArgs";
+export { FindUniquePedaisArgs } from "./FindUniquePedaisArgs";
+export { FindUniquePedaisOrThrowArgs } from "./FindUniquePedaisOrThrowArgs";
+export { GroupByPedaisArgs } from "./GroupByPedaisArgs";
+export { UpdateManyPedaisArgs } from "./UpdateManyPedaisArgs";
+export { UpdateOnePedaisArgs } from "./UpdateOnePedaisArgs";
+export { UpsertOnePedaisArgs } from "./UpsertOnePedaisArgs";

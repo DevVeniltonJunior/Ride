@@ -1,5 +1,5 @@
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from "type-graphql";
-import { Context } from "./context";
+import { Context } from "./Context";
 import { User } from "./User";
 import { hash, compare } from "bcryptjs";
 import { v4 as uuid } from "uuid"

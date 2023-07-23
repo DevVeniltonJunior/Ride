@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server"
 import { buildSchema } from "type-graphql"
 import "reflect-metadata"
 import path from "node:path"
-import { context } from "./context"
+import { context } from "./Context"
 import { UserResolver } from "./UserResolver"
 
 async function startServer() {

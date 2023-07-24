@@ -17,13 +17,14 @@ type Mutation {
   createRide(data: CreateRideInputData!): Ride!
   login(data: UserInputLoginData!): UserWithToken!
   singUp(data: UserInputData!): User!
+  subscrive(data: SubscriptionData!): Subscription!
 }
 
 type Query {
-  privateInfo(data: QueryRideData!): Ride
+  privateInfo(data: QuerySubscription!): Subscription!
 }
 
-input QueryRideData {
+input QuerySubscription {
   id: Float!
   token: String!
 }
@@ -47,6 +48,22 @@ input RideInput {
   start_date: DateTime!
   start_date_registration: DateTime!
   start_place: String!
+}
+
+type Subscription {
+  id: ID!
+  ride_id: Float!
+  subscription_date: DateTime!
+  user_id: Float!
+}
+
+input SubscriptionData {
+  subscription: SubscriptionInput!
+  token: String!
+}
+
+input SubscriptionInput {
+  ride_id: Float!
 }
 
 type User {

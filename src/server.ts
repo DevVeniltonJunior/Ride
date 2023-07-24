@@ -5,10 +5,11 @@ import path from "node:path"
 import { context } from "./Context"
 import { UserResolver } from "./UserResolver"
 import { RideResolver } from "./RideResolver"
+import { SubscriptionResolver } from "./SubscriptionResolver"
 
 async function startServer() {
   const schema = await buildSchema({
-    resolvers: [UserResolver, RideResolver],
+    resolvers: [UserResolver, RideResolver, SubscriptionResolver],
     validate: { forbidUnknownValues: false },
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   })

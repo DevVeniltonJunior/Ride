@@ -44,16 +44,17 @@ model Ride {
 }
 
 model Subscription {
-  id Int @id @default(autoincrement())
+  id Int @default(autoincrement())
   ride_id	Int
   user_id	Int
-  subscription_date	DateTime @default(now())
+  subscription_date	DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [user_id], references: [id])
   ride Ride @relation(fields: [ride_id], references: [id])
 
+  @@id([id, user_id])
   @@map("subscription")
   @@index([user_id, ride_id], name: "idx_userId_rideId")
 }

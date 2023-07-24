@@ -71,8 +71,6 @@ export class UserResolver {
       data: { token: uuid(), user: { connect: { id: user.id } } }
     })
 
-    console.log({ user, token: _token.token })
-
     return { user, token: _token.token}
   }
 }

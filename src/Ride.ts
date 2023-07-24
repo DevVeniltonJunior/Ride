@@ -1,24 +1,28 @@
 import { Field, ObjectType, ID } from "type-graphql"
-import { IsEmail } from "class-validator"
 
 @ObjectType()
-export class User {
+export class Ride {
   @Field(() => ID)
   id: number
   
   @Field(() => String)
   name: string
 
-  @Field()
-  @IsEmail()
-  email: string
+  @Field(() => Date)
+  start_date: Date
+
+  @Field(() => Date)
+  start_date_registration: Date
+
+  @Field(() => Date)
+  end_date_registration: Date
 
   @Field(() => String)
-  password: string
-  
-  @Field(() => Date)
-  createdAt: Date
-  
-  @Field(() => Date)
-  updatedAt: Date
+  additional_information: string | null
+
+  @Field(() => String)
+  start_place: string
+
+  @Field(() => String)
+  participants_limit: number | null
 }

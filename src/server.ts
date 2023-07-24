@@ -4,10 +4,11 @@ import "reflect-metadata"
 import path from "node:path"
 import { context } from "./Context"
 import { UserResolver } from "./UserResolver"
+import { RideResolver } from "./RideResolver"
 
 async function startServer() {
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, RideResolver],
     validate: { forbidUnknownValues: false },
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   })

@@ -11,7 +11,7 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
-CREATE TABLE "pedais" (
+CREATE TABLE "ride" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(60) NOT NULL,
     "start_date" TIMESTAMP(3) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE "pedais" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "pedais_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ride_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -64,7 +64,7 @@ CREATE INDEX "idx_userId" ON "tokens"("user_id");
 ALTER TABLE "subscription" ADD CONSTRAINT "subscription_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "subscription" ADD CONSTRAINT "subscription_ride_id_fkey" FOREIGN KEY ("ride_id") REFERENCES "pedais"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "subscription" ADD CONSTRAINT "subscription_ride_id_fkey" FOREIGN KEY ("ride_id") REFERENCES "ride"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "tokens" ADD CONSTRAINT "tokens_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

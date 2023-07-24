@@ -19,7 +19,7 @@
     "compose:db": "docker compose  -f docker-compose.yml up -d --build database",
     "compose:api": "docker compose  -f docker-compose.yml up -d --build api",
     "prisma:migration": "npx prisma migrate dev --name",
-    "prisma:resolve": "prisma migrate resolve --applied 20230723233521_init",
+    "prisma:resolve": "prisma migrate resolve --applied 20230724003644_init",
     "prisma:apply": "prisma migrate deploy && prisma generate"
   },
   "keywords": [],

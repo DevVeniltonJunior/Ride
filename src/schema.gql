@@ -27,6 +27,7 @@ type Query {
 input QuerySubscription {
   id: Float!
   token: String!
+  user_id: Float!
 }
 
 type Ride {

@@ -21,6 +21,9 @@ class SubscriptionData {
 class QuerySubscription {
   @Field()
   id: number
+
+  @Field()
+  user_id: number
   
   @Field()
   token: string
@@ -36,7 +39,7 @@ export class SubscriptionResolver {
 
     if(!dbToken) return null
 
-    const subscription = await ctx.prisma.subscription.findUnique({ where: { id: data.id } })
+    const subscription = await ctx.prisma.subscription.findUnique({ where: { id_user_id: { id: data.id, user_id: data.user_id } } })
 
     if(!subscription) return null
 

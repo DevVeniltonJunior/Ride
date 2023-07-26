@@ -24,7 +24,7 @@ export class AuthResolver {
     const { secret, expiresIn } = AuthConfig.jwt
 
     const token = sign({}, secret, {
-      subject: `"${user.id}"`,
+      subject: `${user.id}`,
       expiresIn
     })
 

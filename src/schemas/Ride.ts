@@ -30,6 +30,6 @@ export class Ride {
   @Field(() => String)
   participants_limit?: number | null
 
-  @Field(() => Subscription)
+  @Field(() => [Subscription!])
   subscriptions?: Subscription[] | null
 }

@@ -2,33 +2,6 @@ import { Arg, Ctx, Field, InputType, Mutation, Query, Resolver, Authorized } fro
 import { Context, DbUser } from "../prisma/DbUser"
 import { Ride } from "../schemas/Ride"
 
-@InputType()
-class RideInput {
-  @Field()
-  user_id: number
-
-  @Field()
-  name: string
-
-  @Field()
-  start_date: string
-
-  @Field()
-  start_date_registration: string
-
-  @Field()
-  end_date_registration: string
-
-  @Field()
-  additional_information: string
-
-  @Field()
-  start_place: string
-
-  @Field()
-  participants_limit: number
-}
-
 @Resolver()
 export class RideResolver {
   @Query(() => Ride, { nullable: true })
@@ -46,14 +19,12 @@ export class RideResolver {
   async rides(): Promise<Ride[] | null> {
     const date = new Date().toISOString()
 
-    console.log(date)
 
     const rides = await DbUser.prisma.ride.findMany({ where: { end_date_registration: {
       gt: date
-    } } })
+    } }, include: { subscriptions: true } })
 
     if(!rides || rides.length < 1) return null
-    console.log(rides)
 
     return rides
   }

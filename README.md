@@ -39,6 +39,8 @@ Siga as etapas abaixo para executar a API localmente:
       PORT=4000
 ```
 
+### Caso queira rodar pela docker:
+
 4. No diretório raiz do projeto, execute o seguinte comando para criar os contêineres Docker:
 
    ``` docker-compose up -d ```
@@ -46,6 +48,16 @@ Siga as etapas abaixo para executar a API localmente:
 5. Assegure-se de que todos os contêineres estão em execução:
 
     ``` docker ps ```
+
+### Caso queria rodar pelo terminal
+
+4. No diretório raiz do projeto, execute o seguinte comando para criar os contêiner Docker do banco de dados:
+
+    ``` docker compose -f docker-compose.yml up -d --build database ```
+
+5. No diretório raiz do projeto, execute o seguinte comando para subir a aplicação:
+
+    ``` npm run dev ```
 
 6. Acesse a API em http://localhost:${PORT}.
 

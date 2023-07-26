@@ -1,6 +1,6 @@
 import { Arg, Ctx, Field, InputType, Mutation, Query, Resolver } from "type-graphql"
 import { Context } from "./Context"
-import { Ride } from "./Ride"
+import { Ride } from "../schemas/Ride"
 
 @InputType()
 class RideInput {

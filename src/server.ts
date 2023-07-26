@@ -1,18 +1,11 @@
 import { ApolloServer } from "apollo-server"
-import { buildSchema } from "type-graphql"
 import "reflect-metadata"
-import path from "node:path"
-import { context } from "./Context"
-import { UserResolver } from "./UserResolver"
-import { RideResolver } from "./RideResolver"
-import { SubscriptionResolver } from "./SubscriptionResolver"
+import { Context as context } from "./resolvers/Context"
+import { schema } from "./schemas"
+
 
 async function startServer() {
-  const schema = await buildSchema({
-    resolvers: [UserResolver, RideResolver, SubscriptionResolver],
-    validate: { forbidUnknownValues: false },
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
-  })
+
   const server = new ApolloServer({ schema, context })
 
   const { url } = await server.listen(4000)

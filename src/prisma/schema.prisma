@@ -11,7 +11,7 @@ generator migration {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://user_user:Userpass@@1@localhost:5432/v1_rider"
+  url      = env("DATABASE_URL")
 }
 
 model User {

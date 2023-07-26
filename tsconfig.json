@@ -3,10 +3,6 @@
     "target": "es2018",
     "module": "commonjs",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@/test/*": ["test/*"],
-    },
     "rootDirs": [ "src", "test"],
     "allowJs": true,
     "outDir": "./dist",

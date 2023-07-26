@@ -1,8 +1,8 @@
 {
-  "name": "desafioprdaladasemgrupo",
+  "name": "ride",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "Server.js",
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "dev": "ts-node-dev --transpile-only ./src/Server.ts",

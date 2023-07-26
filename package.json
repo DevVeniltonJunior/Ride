@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node ./src/Server.js",
+    "start": "node ./dist/Server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "dev": "ts-node-dev --transpile-only ./src/Server.ts",
     "compose:up": "docker-compose -f docker-compose.yml up -d",

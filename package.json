@@ -1,9 +1,9 @@
 {
-  "name": "desafioprdaladasemgrupo",
+  "name": "ride",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "start": "node ./src/Server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "dev": "ts-node-dev --transpile-only ./src/Server.ts",
     "compose:up": "docker-compose -f docker-compose.yml up -d",

@@ -6,6 +6,6 @@ export interface Context {
   prisma: PrismaClient
 }
 
-export const Context: Context = {
+export const DbUser: Context = {
   prisma
 }

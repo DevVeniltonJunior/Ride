@@ -1,75 +1,87 @@
-import { Arg, Ctx, Field, InputType, Mutation, Query, Resolver } from "type-graphql"
-import { Context } from "./Context"
+import { Arg, Ctx, Field, InputType, Mutation, Query, Resolver, Authorized } from "type-graphql"
+import { Context, DbUser } from "../prisma/DbUser"
 import { Ride } from "../schemas/Ride"
 
 @InputType()
 class RideInput {
   @Field()
-    name: string
+  user_id: number
 
-    @Field()
-    start_date: Date
-
-    @Field()
-    start_date_registration: Date
-
-    @Field()
-    end_date_registration: Date
-
-    @Field()
-    additional_information: string
-
-    @Field()
-    start_place: string
-
-    @Field()
-    participants_limit: number
-}
-
-@InputType()
-class CreateRideInputData {
   @Field()
-  ride: RideInput
-  
-  @Field()
-  token: string
-}
+  name: string
 
-@InputType()
-class QueryRideData {
   @Field()
-  id: number
-  
+  start_date: string
+
   @Field()
-  token: string
+  start_date_registration: string
+
+  @Field()
+  end_date_registration: string
+
+  @Field()
+  additional_information: string
+
+  @Field()
+  start_place: string
+
+  @Field()
+  participants_limit: number
 }
 
 @Resolver()
 export class RideResolver {
   @Query(() => Ride, { nullable: true })
-  async privateInfo(@Arg("data") data: QueryRideData, @Ctx() ctx: Context): Promise<Ride | null> {
-      const dbToken = await ctx.prisma.tokens.findUnique({
-        where: { token: data.token }
-      })
-
-      if(!dbToken) return null
-
-      const ride = await ctx.prisma.ride.findUnique({ where: { id: data.id } })
+  @Authorized()
+  async queryRide(@Arg("id") id: number): Promise<Ride | null> {
+      const ride = await DbUser.prisma.ride.findUnique({ where: { id }, include: { subscriptions: true } })
 
       if(!ride) return null
 
       return ride
-    }
+  }
+
+  @Query(() => [Ride!], { nullable: true })
+  @Authorized()
+  async rides(): Promise<Ride[] | null> {
+    const date = new Date().toISOString()
+
+    console.log(date)
+
+    const rides = await DbUser.prisma.ride.findMany({ where: { end_date_registration: {
+      gt: date
+    } } })
+
+    if(!rides || rides.length < 1) return null
+    console.log(rides)
+
+    return rides
+  }
   
   @Mutation(() => Ride)
-  async createRide(@Arg("data") data: CreateRideInputData, @Ctx() ctx: Context): Promise<Ride | null> {
-    const dbToken = await ctx.prisma.tokens.findUnique({
-      where: { token: data.token }
+  @Authorized()
+  async createRide(
+  @Arg("user_id") user_id: number,
+  @Arg("name") name: string,
+  @Arg("start_date") start_date: string,
+  @Arg("start_date_registration") start_date_registration: string,
+  @Arg("end_date_registration") end_date_registration: string,
+  @Arg("start_place") start_place: string,
+  @Arg("additional_information") additional_information?: string,
+  @Arg("participants_limit") participants_limit?: number,
+  ): Promise<Ride | null> {
+    const ride = DbUser.prisma.ride.create({
+      data: {
+        user_id,
+        name,
+        start_date,
+        start_date_registration,
+        end_date_registration,
+        start_place,
+        additional_information,
+        participants_limit
+      }
     })
-
-    if(!dbToken) return null
-
-    const ride = ctx.prisma.ride.create({ data: data.ride })
 
     if(!ride) return null
 

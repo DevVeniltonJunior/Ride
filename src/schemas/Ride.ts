@@ -1,9 +1,13 @@
 import { Field, ObjectType, ID } from "type-graphql"
+import { Subscription } from "./Subscription"
 
 @ObjectType()
 export class Ride {
   @Field(() => ID)
   id: number
+
+  @Field(() => ID)
+  user_id: number
   
   @Field(() => String)
   name: string
@@ -16,13 +20,16 @@ export class Ride {
 
   @Field(() => Date)
   end_date_registration: Date
-
-  @Field(() => String)
-  additional_information: string | null
-
+  
   @Field(() => String)
   start_place: string
+  
+  @Field(() => String)
+  additional_information?: string | null
 
   @Field(() => String)
-  participants_limit: number | null
+  participants_limit?: number | null
+
+  @Field(() => Subscription)
+  subscriptions?: Subscription[] | null
 }

@@ -23,7 +23,6 @@ model User {
   updatedAt DateTime @updatedAt
   createdRides Ride[]
   subscription Subscription[]
-  tokenVersion Int @default(0)
 
   @@map("users")
 }

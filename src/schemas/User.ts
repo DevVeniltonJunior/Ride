@@ -5,7 +5,7 @@ import { IsEmail } from "class-validator"
 export class User {
   @Field(() => ID)
   id: number
-  
+
   @Field(() => String)
   name: string
 

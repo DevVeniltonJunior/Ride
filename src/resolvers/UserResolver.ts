@@ -1,76 +1,30 @@
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from "type-graphql";
-import { Context } from "./Context";
-import { User } from "./User";
-import { hash, compare } from "bcryptjs";
-import { v4 as uuid } from "uuid"
-
-@InputType()
-class UserInputData {
-  @Field()
-  name: string
-
-  @Field()
-  email: string
-  
-  @Field()
-  password: string
-}
-
-
-@InputType()
-class UserInputLoginData {
-  @Field()
-  email: string
-
-  @Field()
-  password: string
-}
-
-@ObjectType()
-class UserWithToken {
-  @Field()
-  user: User
-
-  @Field()
-  token: string
-}
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { DbUser } from "../prisma/DbUser";
+import { User } from "../schemas/User";
+import { hash } from "bcryptjs";
 
 @Resolver()
 export class UserResolver {
   @Query(() => User, {nullable: true})
-  async privateInfo(@Arg("token") token: string, @Ctx() ctx: Context): Promise<User | null> {
-    const dbToken =  await ctx.prisma.tokens.findUnique({ where: { token }, include: { user: true }})
-    if(!dbToken) return null
-    
-    const { user } = dbToken;
+  @Authorized()
+  async me(@Ctx() ctx: MyContext): Promise<User | null> {
+    const userId = ctx.authPayload?.user.id
 
+    const user = await DbUser.prisma.user.findUnique({ where: { id: userId }, include: {
+      subscription: true, createdRides: true
+    }})
     return user
   }
   
   @Mutation(() => User)
-  async singUp(@Arg("data") data: UserInputData, @Ctx() ctx: Context): Promise<User> {
-    const hashedPassword = await hash(data.password, 10)
-    return await ctx.prisma.user.create({
-      data: { ...data, password: hashedPassword }
+  async singUp(
+    @Arg("name") name: string,
+    @Arg("email") email: string,
+    @Arg("password") password: string
+    ): Promise<User> {
+    const hashedPassword = await hash(password, 10)
+    return await DbUser.prisma.user.create({
+      data: { name, email, password: hashedPassword }
     })
-  }
-
-  @Mutation(() => UserWithToken)
-  async login(@Arg("data") data: UserInputLoginData, @Ctx() ctx: Context): Promise<UserWithToken | null> {
-    const user = await ctx.prisma.user.findUnique({
-      where: { email: data.email }
-    })
-
-    if(!user) return null
-
-    const validation = await compare(data.password, user.password)
-
-    if(!validation) return null
-
-    const _token = await ctx.prisma.tokens.create({
-      data: { token: uuid(), user: { connect: { id: user.id } } }
-    })
-
-    return { user, token: _token.token}
   }
 }

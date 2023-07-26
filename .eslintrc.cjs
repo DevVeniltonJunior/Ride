@@ -8,6 +8,7 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/method-signature-style": "off",
-    "@typescript-eslint/consistent-type-definitions": "off"
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

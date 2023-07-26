@@ -1,21 +1,7 @@
-import { Arg, Ctx, Field, InputType, Mutation, Query, Resolver } from "type-graphql"
-import { Context } from "./Context"
-import { Subscription } from "./Subscription"
-
-@InputType()
-class SubscriptionInput {
-  @Field()
-  ride_id: number
-}
-
-@InputType()
-class SubscriptionData {
-  @Field()
-  subscription: SubscriptionInput
-  
-  @Field()
-  token: string
-}
+import { Arg, Authorized, Ctx, Field, InputType, Mutation, Query, Resolver } from "type-graphql"
+import { DbUser } from "../prisma/DbUser"
+import { Subscription } from "../schemas/Subscription"
+import { Auth } from "../schemas/Auth"
 
 @InputType()
 class QuerySubscription {
@@ -24,22 +10,14 @@ class QuerySubscription {
 
   @Field()
   user_id: number
-  
-  @Field()
-  token: string
 }
 
 @Resolver()
 export class SubscriptionResolver {
   @Query(() => Subscription)
-  async privateInfo(@Arg("data") data: QuerySubscription, @Ctx() ctx: Context): Promise<Subscription | null> {
-    const dbToken = await ctx.prisma.tokens.findUnique({
-      where: { token: data.token }
-    })
-
-    if(!dbToken) return null
-
-    const subscription = await ctx.prisma.subscription.findUnique({ where: { id_user_id: { id: data.id, user_id: data.user_id } } })
+  @Authorized()
+  async privateInfo(@Arg("data") data: QuerySubscription,): Promise<Subscription | null> {
+    const subscription = await DbUser.prisma.subscription.findUnique({ where: { id_user_id: { id: data.id, user_id: data.user_id } } })
 
     if(!subscription) return null
 
@@ -47,22 +25,19 @@ export class SubscriptionResolver {
   }
 
   @Mutation(() => Subscription)
-  async subscrive(@Arg("data") data: SubscriptionData, @Ctx() ctx: Context): Promise<Subscription | null> {
-    const dbToken = await ctx.prisma.tokens.findUnique({
-      where: { token: data.token }
-    })
-
-    if(!dbToken) return null
-
+  @Authorized()
+  async subscrive(@Arg("ride_id") ride_id: number, @Ctx() ctx: Auth): Promise<Subscription | null> {
     const subscription_date = new Date().toISOString()
-    const end_date_registration = (await ctx.prisma.ride.findUnique({ where: { id: data.subscription.ride_id }}))?.end_date_registration.toISOString()
+    const end_date_registration = (await DbUser.prisma.ride.findUnique({ where: { id: ride_id } }))?.end_date_registration.toISOString()
 
     if(!end_date_registration || end_date_registration < subscription_date ) return null
 
-    const subscription = await ctx.prisma.subscription.create({ data: Object.assign(data.subscription, {
-      subscription_date: subscription_date,
-      user_id: dbToken.user_id
-    }) })
+    const subscription = await DbUser.prisma.subscription.create({ data: {
+      ride_id, 
+      user_id: ctx.user.id,
+      subscription_date
+      }
+    })
 
     if(!subscription) return null
 
